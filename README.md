@@ -553,7 +553,26 @@ CMD ["/bin/server"]
 
 ## Dockerfile for PHP Laravel
 Normal:
+```
+# Use the official PHP image from the Docker Hub
+FROM php:8.1-apache
 
+# Set environment variables
+ENV APACHE_DOCUMENT_ROOT /var/www/html
+
+# Set the working directory
+WORKDIR /var/www/html
+
+# Copy your PHP application code into the container
+COPY . /var/www/html
+
+# Expose port 80 to the host
+EXPOSE 80
+
+# Start the Apache server
+CMD ["apache2-foreground"]
+
+```
 ```Dockerfile
 FROM php:8.2-fpm
 

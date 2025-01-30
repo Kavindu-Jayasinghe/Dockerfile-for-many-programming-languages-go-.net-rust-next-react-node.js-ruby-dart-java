@@ -121,6 +121,22 @@ http {
     }
 }
 ```
+nginx config for k8s
+```
+server {
+    listen 80;
+    server_name localhost;
+
+    location / {
+        root /usr/share/nginx/html;
+        index index.html;
+        try_files $uri $uri/ /index.html;  # This handles SPA routing
+    }
+
+    error_page 404 /index.html;  # Serve index.html on 404 errors
+}
+
+```
 
 ## Dockerfile for NodeJS
 ExpressJS:

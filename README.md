@@ -35,6 +35,30 @@ COPY nginx.conf /etc/nginx/nginx.conf
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
 ```
+```
+# Stage 1: Build the React app
+FROM node:18-alpine AS build
+
+# Set working directory
+WORKDIR /usr/src/app
+
+COPY *.json *.ts *.js *.html ./
+
+RUN npm install
+COPY public /usr/src/app/public 
+COPY src /usr/src/app/src
+
+# Build the application
+RUN npm run build
+
+# Stage 2: Serve the app with NGINX
+FROM nginx:alpine
+COPY --from=build /usr/src/app/dist /usr/share/nginx/html 
+#COPY --from=build /usr/src/app/src /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
+
+```
 
 With pnpm:
 
